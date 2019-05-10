@@ -10,31 +10,26 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from sklearn import mixture
 
-                              
 # Load trajectory data:
 data = np.genfromtxt('../tecnalia_data/Trial_1.csv', delimiter=';',skip_header=2)
 frequency = 200
 time = data[:,0]/frequency
 
-#pos = data[:,1:4]
-pos = data[:,1]
+dof = 3 # Degrees of freedom of configuration
 
+#pos = data[:,1:4]
+pos = data[:,1:dof + 1]
 traj = np.column_stack((time, pos))
-print(traj[:,0])
-print(traj[:,0:1])
+
 
 plt.plot(time,pos)
 plt.title("Trajectory")
 plt.xlabel("Time [s]")
 plt.ylabel("Position")
-plt.show()
+#plt.show()
 
 #Fit a Gaussian mixture with EM
 gmm = mixture.GaussianMixture(n_components=3, covariance_type='full', reg_covar=10**-5).fit(traj)
-
-print(gmm)
-
-
 
 
 color_iter = itertools.cycle(['navy', 'c', 'cornflowerblue', 'gold',
@@ -68,10 +63,14 @@ def plot_results(X, Y_, means, covariances, index, title):
     plt.title(title)
     plt.xlabel("Time [s]")
     plt.ylabel("Position")
-    
 
-#print(gmm.predict(traj))   
-plot_results(traj, gmm.predict(traj), gmm.means_, gmm.covariances_, 0,
+
+
+print(gmm.covariances_)
+
+for i in range(1, dof + 1):
+    print(gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]])
+    plot_results(traj[:,[0,i]], gmm.predict(traj), gmm.means_[:,[0,i]], gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]], 0,
              'Trajectory Segmented into Gaussian Mixture Model')
              
 plt.show()
