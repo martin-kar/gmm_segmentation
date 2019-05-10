@@ -56,17 +56,10 @@ def plot_results(X, Y_, means, covariances, index, title):
         ell.set_alpha(0.5)
         splot.add_artist(ell)
 
-    #plt.xlim(0., 50)
-    #plt.ylim(-1., 1)
-    #plt.xticks(())
-    #plt.yticks(())
     plt.title(title)
     plt.xlabel("Time [s]")
     plt.ylabel("Position")
 
-
-
-print(gmm.covariances_)
 
 for i in range(1, dof + 1):
     print(gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]])
