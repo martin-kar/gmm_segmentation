@@ -37,9 +37,10 @@ def plot_results(X, Y_, means, covariances, index, title):
 
 
 def plot_gmm_segments(dof, traj, gmm):
+    plt.figure()
     for i in range(1, dof + 1):
         # print(gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]])
         plot_results(traj[:,[0,i]], gmm.predict(traj), gmm.means_[:,[0,i]], gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]], 0,
                  'Trajectory Segmented into Gaussian Mixture Model')
-                 
-    plt.show()
+
+    #plt.show()
