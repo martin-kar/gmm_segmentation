@@ -1,11 +1,11 @@
 
+import numpy as np
 
 
-
-def one_d_kalman(R1, R2, xhat, y, Phi, P):
-    Kf = P/(P + R2)
-    K = Phi*P/(P + R2)
-    P = Phi*P*Phi + R1 - K*(P + R2)*K
-    xhat = xhat + Kf*(y - xhat)
-    xhat = Phi*xhat + K*(y-xhat)
+def kf(R1, R2, xhat, y, Phi, P):
+    Kf = P.dot(np.linalg.inv(P + R2))
+    K = Phi.dot(P).dot(np.linalg.inv(P + R2))
+    P = Phi.dot(P).dot(np.transpose(Phi)) + R1 - K.dot(P + R2).dot(np.transpose(K))
+    xhat = xhat + Kf.dot(y - xhat)
+    xhat = Phi.dot(xhat) + K.dot(y-xhat)
     return xhat, P
