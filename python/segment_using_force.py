@@ -7,16 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import kalman_filter
 
-# User-defined parameters
-force_dof = 3 # Degrees of freedom of force
-frequency = 200
-
-# Load trajectory data:
-data = np.genfromtxt('../tecnalia_data/Trial_1.csv', delimiter=';',skip_header=1)
-nbr_time_steps = data.shape[0]
-time = data[:,0]/frequency
-force = data[:,13:13 + force_dof]
-
+def force_segment(
 
 R1 = 0.025*np.identity(force_dof)
 R2 = 0.025*np.identity(force_dof)
