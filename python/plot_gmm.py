@@ -6,13 +6,17 @@ import matplotlib as mpl
 from sklearn import mixture
 
 
+inch_rate = 2.54
 
-color_iter = itertools.cycle(['navy', 'c', 'cornflowerblue', 'gold',
-                              'darkorange'])
-def plot_results(X, Y_, means, covariances, index, title):
+def plot_results(X, Y_, means, covariances, index, title, gmm):
+    
+    color_list = ['navy', 'c', 'cornflowerblue', 'gold',
+                              'darkorange','red', 'green']
+
+    color_list = color_list[0:gmm.n_components]
     splot = plt.subplot()
     for i, (mean, covar, color) in enumerate(zip(
-            means, covariances, color_iter)):
+            means, covariances, color_list)):
         v, w = linalg.eigh(covar)
         
         v = 2. * np.sqrt(2.) * np.sqrt(v)
@@ -32,16 +36,19 @@ def plot_results(X, Y_, means, covariances, index, title):
         ell.set_alpha(0.5)
         splot.add_artist(ell)
 
-    plt.title(title)
+    #plt.title(title)
+    #plt.xlabel("Time [s]")
+    plt.ylabel("Position [mm]")
     plt.xlabel("Time [s]")
-    plt.ylabel("Position")
-
+    
+    
 
 def plot_gmm_segments(dof, traj, gmm):
-    plt.figure()
+    #scaler = 3
+    plt.figure()#(figsize=(scaler*7/inch_rate, scaler*3/inch_rate))
     for i in range(1, dof + 1):
         # print(gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]])
         plot_results(traj[:,[0,i]], gmm.predict(traj), gmm.means_[:,[0,i]], gmm.covariances_[:,[[0,0],[i,i]],[[0,i],[0,i]]], 0,
-                 'Trajectory Segmented into Gaussian Mixture Model')
+                 'Trajectory Segmented into Gaussian Mixture Model',gmm)
 
     #plt.show()

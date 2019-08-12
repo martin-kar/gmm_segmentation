@@ -36,7 +36,7 @@ for time_step, y in enumerate(force[1:], start = 1):
 
 plt.figure()
 plt.plot(time, normalized_filter_error)
-
+print("HEJ")
 
 plt.figure()
 plt.plot(time, force)

@@ -49,10 +49,10 @@ def gmm_segment(time, pos, nbr_of_components):
 def force_segment(time, force):
     force_dof = force.shape[1]
     nbr_time_steps = force.shape[0]
-    noise_std = 0.5
-    R1 = noise_std*np.identity(force_dof)
-    R2 = noise_std*np.identity(force_dof)
-    P = noise_std*np.identity(force_dof)
+    noise_var = 0.01 # Measured
+    R1 = noise_var*np.identity(force_dof)
+    R2 = noise_var*np.identity(force_dof)
+    P = noise_var*np.identity(force_dof)
     Phi = np.identity(force_dof)
     xhat = force[0]
     xhat = xhat.reshape(force_dof, 1)
@@ -77,7 +77,8 @@ def force_segment(time, force):
 
     plt.figure()
     plt.plot(time, normalized_filter_error)
+    plt.xlabel("Time [s]")
+    plt.ylabel("Normalized filter error")
+    
 
 
-    plt.figure()
-    plt.plot(time, force)
